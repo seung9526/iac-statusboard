@@ -1,25 +1,23 @@
-variable "subnet_cidr" {
-  description = "Subnet CIDR for application network"
+variable "nhn_region" {
+  description = "NHN Cloud region."
   type        = string
-  default     = "10.0.1.0/24"
 }
-
 variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
+  description = "The CIDR block for the VPC."
   type        = string
-  default     = "10.0.0.0/16"
+}
+variable "subnet_cidr" {
+  description = "The CIDR block for the subnet."
+  type        = string
+}
+variable "public_network_id" {
+  description = "The ID of the Public Network for external router."
+  type        = string
 }
 
-variable "firewall_rules" {
-  description = "List of firewall rules"
-  type = list(object({
-    protocol = string
-    port     = string
-    source   = string
-  }))
-  default = [
-    { protocol = "tcp", port = "22",  source = "0.0.0.0/0" }, # SSH
-    { protocol = "tcp", port = "80",  source = "0.0.0.0/0" }, # HTTP
-    { protocol = "tcp", port = "443", source = "0.0.0.0/0" }  # HTTPS
-  ]
+variable "igw_id" {
+  description = "The ID of the Internet Gateway."
+  type        = string
+  default     = "26562caf-99a9-4f93-8a14-d6bb309b9c7c"
 }
+

@@ -9,19 +9,25 @@ terraform {
 }
 
 provider "nhncloud" {
+  # Default provider for Compute, Networking, etc.
   user_name = var.nhn_user_name
   tenant_id = var.nhn_tenant_id
   password  = var.nhn_password
   auth_url  = var.nhn_auth_url
   region    = var.nhn_region
+
+  endpoint_overrides = {
+    "network" = "https://${lower(var.nhn_region)}-api-network-infrastructure.nhncloudservice.com/v2.0/"
+  }
 }
 
 module "vpc" {
-  source = "./network"
-}
-
-module "storage" {
-  source = "./storage"
+  source            = "./network"
+  nhn_region        = var.nhn_region
+  vpc_cidr          = var.vpc_cidr
+  subnet_cidr       = var.subnet_cidr
+  public_network_id = data.nhncloud_networking_network_v2.public_network.id
+  providers         = { nhncloud = nhncloud }
 }
 
 module "compute" {
@@ -29,10 +35,15 @@ module "compute" {
 
   instance_name = var.instance_name
   flavor_id     = var.flavor_id
-  image_id      = var.image_id
+  image_id      = data.nhncloud_images_image_v2.ubuntu_2404.id
   key_pair      = var.key_pair
-  vpc_id        = module.vpc.vpc_id
-  network_id    = module.vpc.vpc_id
-  subnet_id     = module.vpc.subnet_id
-  secgroup_id   = module.vpc.secgroup_id
+  nhn_region    = var.nhn_region
+
+  network_id  = module.vpc.network_id
+  subnet_id   = module.vpc.subnet_id
+  secgroup_id = module.vpc.secgroup_id
+
+  public_network_id = data.nhncloud_networking_network_v2.public_network.id
+
+  providers = { nhncloud = nhncloud }
 }
