@@ -1,6 +1,6 @@
 # StatusBoard IaC (NHN Cloud)
 
-Terraform으로 NHN Cloud 인프라를 구성하고 관리
+Terraform으로 프론트엔드/백엔드 분리 구조이며, 백엔드는 Private 서브넷, 프론트엔드는 Public 접근 가능하게 구성
 
 <br/>
 
