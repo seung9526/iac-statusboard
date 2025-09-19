@@ -1,3 +1,4 @@
+# NHN Cloud 인증 정보
 variable "nhn_user_name" {
   description = "NHN Cloud username for IAM authentication."
   type        = string
@@ -30,6 +31,7 @@ variable "nhn_secret_key" {
 
 variable "nhn_auth_url" {
   description = "NHN Cloud auth URL for IAM."
+  type        = string
   default     = "https://api-identity.infrastructure.nhncloudservice.com/v2.0"
 }
 
@@ -38,23 +40,19 @@ variable "nhn_region" {
   type        = string
 }
 
-variable "instance_name" {
-  description = "Name for the compute instance."
-  type        = string
-  default     = "statusboard-test-vm"
-}
-
+# 공통 인스턴스 설정
 variable "flavor_id" {
-  description = "Flavor ID for the compute instance."
+  description = "Flavor ID for compute instances."
   type        = string
-  default     = "t2.c1m1"
+  default     = "m2.c1m2"
 }
 
 variable "key_pair" {
-  description = "Key pair name for the compute instance."
+  description = "Key pair name for compute instances."
   type        = string
 }
 
+# VPC/Subnet 설정
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC."
   type        = string
@@ -64,6 +62,5 @@ variable "vpc_cidr" {
 variable "subnet_cidr" {
   description = "The CIDR block for the subnet."
   type        = string
-  default     = "192.168.0.0/24" # VPC CIDR 범위 내의 값이어야 합니다.
+  default     = "192.168.0.0/24"
 }
-

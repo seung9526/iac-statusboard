@@ -1,6 +1,6 @@
 # compute/instance.tf - Fixed compute instance configuration
 
-resource "nhncloud_compute_instance_v2" "main" {
+resource "nhncloud_compute_instance_v2" "this" {
   name            = var.instance_name
   flavor_name     = var.flavor_id
   image_id        = var.image_id
@@ -19,5 +19,3 @@ resource "nhncloud_compute_instance_v2" "main" {
     delete_on_termination = true
   }
 }
-
-# Floating IP is managed in floating_ip.tf

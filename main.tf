@@ -30,10 +30,32 @@ module "vpc" {
   providers         = { nhncloud = nhncloud }
 }
 
-module "compute" {
+module "compute_backend" {
   source = "./compute"
 
-  instance_name = var.instance_name
+  instance_name = "statusboard-backend"
+  assign_floating_ip = false
+
+  flavor_id     = var.flavor_id
+  image_id      = data.nhncloud_images_image_v2.ubuntu_2404.id
+  key_pair      = var.key_pair
+  nhn_region    = var.nhn_region
+
+  network_id  = module.vpc.network_id
+  subnet_id   = module.vpc.subnet_id
+  secgroup_id = module.vpc.secgroup_id
+
+  public_network_id = data.nhncloud_networking_network_v2.public_network.id
+
+  providers = { nhncloud = nhncloud }
+}
+
+module "compute_frontend" {
+  source = "./compute"
+
+  instance_name = "statusboard-frontend"
+  assign_floating_ip = true
+
   flavor_id     = var.flavor_id
   image_id      = data.nhncloud_images_image_v2.ubuntu_2404.id
   key_pair      = var.key_pair

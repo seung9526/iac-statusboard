@@ -35,3 +35,9 @@ variable "nhn_region" {
 variable "public_network_id" {
   type = string
 }
+
+variable "assign_floating_ip" {
+  description = "Whether to create a floating IP for this instance."
+  type        = bool
+  default     = false
+}
